@@ -1,16 +1,9 @@
-# 这是一个示例 Python 脚本。
+from utils.read_data import read
+from utils.LogisticRegression import LogisticRegression, LogisticRegression_pred
+from utils.acc import accuracy
 
-# 按 Shift+F10 执行或将其替换为您的代码。
-# 按 双击 Shift 在所有地方搜索类、文件、工具窗口、操作和设置。
-
-
-def print_hi(name):
-    # 在下面的代码行中使用断点来调试脚本。
-    print(f'Hi, {name}')  # 按 Ctrl+F8 切换断点。
-
-
-# 按间距中的绿色按钮以运行脚本。
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
+train_data_std, train_label, val_data_std, val_label, test_data_std, test_label = read()
+model = LogisticRegression(train_data_std, train_label)
+pred = LogisticRegression_pred(model, test_data_std)
+acc = accuracy(pred, test_label)
+print(acc)
