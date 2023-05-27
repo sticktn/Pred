@@ -7,19 +7,22 @@
 """
 from utils.read_data import read
 from utils.MLP import MLPCLassify, MLP_Pred
-from utils.acc import accuracy
+from utils.acc import print_evaluation
+import joblib
 
 train_data_std, train_label, val_data_std, val_label, test_data_std, test_label = read()
 model = MLPCLassify(train_data_std, train_label)
 
 train_pred = MLP_Pred(model, train_data_std)
-train_acc = accuracy(train_pred, train_label)
-print("train dataset accuracy:", train_acc)
+print("train dataset evaluation:")
+print_evaluation(train_pred, train_label)
 
 val_pred = MLP_Pred(model, val_data_std)
-val_acc = accuracy(val_pred, val_label)
-print("val dataset accuracy:", val_acc)
+print("val dataset evaluation:")
+print_evaluation(val_pred, val_label)
 
 test_pred = MLP_Pred(model, test_data_std)
-test_acc = accuracy(test_pred, test_label)
-print("test dataset accuracy:", test_acc)
+print("test dataset evaluation:")
+print_evaluation(test_pred, test_label)
+
+joblib.dump(model, "MLP.pkl")
