@@ -1,19 +1,18 @@
-# 文件描述
-- data.xlsx 训练数据集
-- exal.xlsx 测试数据集
-
-# 模型测试
-## 1. LogisticRegression
-对数据进行简单的标准化，进行最大迭代次数为500的拟合(100次会无法收敛)，得到的模型正确率为0.94左右。
-
-## 2. MLPClassify
-对数据进行简单的标准化，对多层感知机进行200次训练，得到的模型正确率为0.91左右（但是训练集的正确率有0.99，可能出现了一点过拟合倾向）。
-
-## 3. KNNClassify
-对数据进行简单的标准化，对KNN进行训练(确定k的最佳取值为8)，得到的模型正确率为0.94左右。
-
-## 4. NativeBayesClassify
-使用Bernoulli模型分类，得到的模型正确率为0.8左右。正确率较低，可能是因为数据集中的特征之间的相关性较大，不符合朴素贝叶斯的假设。需要调参或者是要数据降维。
-
-## 5. DecisionTreeClassify
-对数据进行简单的标准化，对决策树进行训练，得到的模型正确率为0.9左右(但是训练集的正确率在0.99，可能出现了过拟合现象)。
+├─ data.xlsx                训练集
+├─ DecisionTree_main.py    决策树模型训练
+├─ eval.xlsx                测试集
+├─ jm.py                     qt窗口
+├─ KNN_main.py              KNN模型训练
+├─ MLP_main.py              MLP模型训练
+├─ utils                工具
+│  ├─ acc.py                 评估
+│  ├─ model.py               模型构建
+│  ├─ read_data.py          数据加载和数据处理
+├─ model                 训练好的模型
+│  ├─ DecisionTree.pkl
+│  ├─ KNN.pkl
+│  └─ MLP.pkl
+├─ adjust_hyperparameters    调整超参数
+│  ├─ decisiontree_deepth.py    决策树深度
+│  ├─ KNN_best_k.py             KNN的K值
+│  └─ MLP_best_alpha.py         MLP的学习率
