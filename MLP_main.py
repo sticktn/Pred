@@ -1,28 +1,13 @@
-# -*- coding: UTF-8 -*-
-"""
-@Project ：Pred \n 
-@File    ：MLP_main.py \n
-@Author  ：guo \n
-@Date    ：2023/5/17 下午4:45 \n
-"""
 from utils.read_data import read
-from utils.MLP import MLPCLassify, MLP_Pred
-from utils.acc import print_evaluation
-import joblib
+from utils.model import Model
+from utils.acc import Evaluation
 
-train_data_std, train_label, val_data_std, val_label, test_data_std, test_label = read()
-model = MLPCLassify(train_data_std, train_label)
 
-train_pred = MLP_Pred(model, train_data_std)
-print("train dataset evaluation:")
-print_evaluation(train_pred, train_label)
-
-val_pred = MLP_Pred(model, val_data_std)
-print("val dataset evaluation:")
-print_evaluation(val_pred, val_label)
-
-test_pred = MLP_Pred(model, test_data_std)
-print("test dataset evaluation:")
-print_evaluation(test_pred, test_label)
-
-joblib.dump(model, "MLP.pkl")
+train_data_std, train_label, val_data_std, val_label, test_data_std, test_label = read(is_resample=True)
+Model_de = Model(train_data_std,train_label,model_name='MLP',alpha=0.05)
+pred = Model_de.pred(test_data_std)
+de_evaluation = Evaluation(pred,test_label)
+de_evaluation.print_evaluation()
+de_evaluation.draw_confusion_matrix()
+de_evaluation.draw_recall(Model_de.pred_proba(test_data_std))
+Model_de.save_model('MLP.pkl')

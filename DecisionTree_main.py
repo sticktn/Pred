@@ -1,30 +1,12 @@
-# -*- coding: UTF-8 -*-
-"""
-@Project ：Pred \n 
-@File    ：DecisionTree_main.py \n
-@Author  ：guo \n
-@Date    ：2023/5/17 下午6:08 \n
-"""
 from utils.read_data import read
-from utils.DecisionTree import DecisionTreeClassify, DecisionTree_Pred
-from utils.acc import print_evaluation
-from sklearn.tree import export_text
-import joblib
+from utils.model import Model
+from utils.acc import Evaluation
 
-train_data_std, train_label, val_data_std, val_label, test_data_std, test_label = read()
-model = DecisionTreeClassify(train_data_std, train_label, criterion="gini")
-
-train_pred = DecisionTree_Pred(model, train_data_std)
-print("train dataset evaluation:")
-print_evaluation(train_pred, train_label)
-
-val_pred = DecisionTree_Pred(model, val_data_std)
-print("val dataset evaluation:")
-print_evaluation(val_pred, val_label)
-
-test_pred = DecisionTree_Pred(model, test_data_std)
-print("test dataset evaluation:")
-print_evaluation(test_pred, test_label)
-
-print(export_text(model))
-joblib.dump(model, "DecisionTree.pkl")
+train_data_std, train_label, val_data_std, val_label, test_data_std, test_label = read(is_resample=False)
+Model_de = Model(train_data_std,train_label,model_name='DecisionTree',tree_deepth=6)
+pred = Model_de.pred(test_data_std)
+de_evaluation = Evaluation(pred,test_label)
+de_evaluation.print_evaluation()
+de_evaluation.draw_confusion_matrix()
+de_evaluation.draw_recall(Model_de.pred_proba(test_data_std))
+Model_de.save_model('DecisionTree.pkl')
